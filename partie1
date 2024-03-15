@@ -7,7 +7,6 @@ public class ArbreBinaire {
     
     private static ArbreBinaire arbreVide = new ArbreBinaire(null, null, null);
     
-    // Constructeurs
     public ArbreBinaire() {
         this(null, null, null);
     }
