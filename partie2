@@ -1,0 +1,18 @@
+// Partie 2
+    public static void main(String[] args) {
+        
+        ArbreBinaire arbre = ArbreBinaire.creer();
+
+        arbre.setGauche(new ArbreBinaire(5, null, null));
+        arbre.setDroite(new ArbreBinaire(10, null, null));
+        
+        afficherArbre(arbre);
+    }
+    
+    private static void afficherArbre(ArbreBinaire arbre) {
+        if (arbre != null) {
+            System.out.print(arbre.getClef() + " ");
+            afficherArbre(arbre.getGauche());
+            afficherArbre(arbre.getDroite());
+        }
+    }
