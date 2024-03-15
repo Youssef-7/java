@@ -1,0 +1,23 @@
+// Partie 3
+    public boolean estVide() {
+        return this == arbreVide;
+    }
+    
+    public int taille() {
+        if (this.estVide()) {
+            return 0;
+        } else {
+            return 1 + this.gauche.taille() + this.droite.taille();
+        }
+    }
+    
+    public boolean rechercher(Integer valeur) {
+        if (this.estVide()) {
+            return false;
+        } else if (this.clef.equals(valeur)) {
+            return true;
+        } else {
+            return this.gauche.rechercher(valeur) || this.droite.rechercher(valeur);
+        }
+    }
+}
