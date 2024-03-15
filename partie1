@@ -1,0 +1,48 @@
+// Partie 1
+
+public class ArbreBinaire {
+    private Integer clef;
+    private ArbreBinaire gauche;
+    private ArbreBinaire droite;
+    
+    private static ArbreBinaire arbreVide = new ArbreBinaire(null, null, null);
+    
+    // Constructeurs
+    public ArbreBinaire() {
+        this(null, null, null);
+    }
+    
+    public ArbreBinaire(Integer clef, ArbreBinaire gauche, ArbreBinaire droite) {
+        this.clef = clef;
+        this.gauche = gauche;
+        this.droite = droite;
+    }
+    
+    public static ArbreBinaire creer() {
+        return arbreVide;
+    }
+    
+    public Integer getClef() {
+        return clef;
+    }
+    
+    public void setClef(Integer clef) {
+        this.clef = clef;
+    }
+    
+    public ArbreBinaire getGauche() {
+        return gauche;
+    }
+    
+    public void setGauche(ArbreBinaire gauche) {
+        this.gauche = gauche;
+    }
+    
+    public ArbreBinaire getDroite() {
+        return droite;
+    }
+    
+    public void setDroite(ArbreBinaire droite) {
+        this.droite = droite;
+    }
+    
