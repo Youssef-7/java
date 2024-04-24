@@ -1,0 +1,156 @@
+public interface Command {
+    void execute();
+    void undo();
+}
+
+// 1. Création de la structure de base :
+public class Light {
+    private boolean isOn;
+    private int intensity;
+
+    public Light() {
+        this.isOn = false;
+        this.intensity = 0;
+    }
+
+    public void turnOn() {
+        isOn = true;
+        System.out.println("La lumière est allumée.");
+    }
+
+    public void turnOff() {
+        isOn = false;
+        System.out.println("La lumière est éteinte.");
+    }
+
+    public void setIntensity(int intensity) {
+        this.intensity = intensity;
+        System.out.println("L'intensité lumineuse est réglée à : " + intensity);
+    }
+
+    public boolean isOn() {
+        return isOn;
+    }
+
+    public int getIntensity() {
+        return intensity;
+    }
+}
+
+public class LightControlPanel {
+    private List<Light> lights = new ArrayList<>();
+
+    public void addLight(Light light) {
+        lights.add(light);
+    }
+
+    public void removeLight(Light light) {
+        lights.remove(light);
+    }
+
+    public void turnOnAllLights() {
+        for (Light light : lights) {
+            light.turnOn();
+        }
+    }
+
+    public void turnOffAllLights() {
+        for (Light light : lights) {
+            light.turnOff();
+        }
+    }
+
+    public void setIntensityForAllLights(int intensity) {
+        for (Light light : lights) {
+            light.setIntensity(intensity);
+        }
+    }
+}
+
+// 2. Implémentation des commandes :
+public class TurnOnLightCommand implements Command {
+    private Light light;
+
+    public TurnOnLightCommand(Light light) {
+        this.light = light;
+    }
+
+    @Override
+    public void execute() {
+        light.turnOn();
+    }
+
+    @Override
+    public void undo() {
+        light.turnOff();
+    }
+}
+
+public class TurnOffLightCommand implements Command {
+    private Light light;
+    private boolean previousState;
+
+    public TurnOffLightCommand(Light light) {
+        this.light = light;
+    }
+
+    @Override
+    public void execute() {
+        previousState = light.isOn();
+        light.turnOff();
+    }
+
+    @Override
+    public void undo() {
+        if (previousState) {
+            light.turnOn();
+        } else {
+            light.turnOff();
+        }
+    }
+}
+
+public class AdjustBrightnessCommand implements Command {
+    private Light light;
+    private int previousIntensity;
+    private int newIntensity;
+
+    public AdjustBrightnessCommand(Light light, int newIntensity) {
+        this.light = light;
+        this.newIntensity = newIntensity;
+    }
+
+    @Override
+    public void execute() {
+        previousIntensity = light.getIntensity();
+        light.setIntensity(newIntensity);
+    }
+// 3. Gestion des commandes annulables :
+    @Override
+    public void undo() {
+        light.setIntensity(previousIntensity);
+    }
+}
+
+// 4. Utilisation du système :
+public class LightingControlSystemTest {
+    public static void main(String[] args) {
+        Light roomLight = new Light();
+        Light bathroomLight = new Light();
+
+        LightControlPanel controlPanel = new LightControlPanel();
+
+        controlPanel.addLight(roomLight);
+        controlPanel.addLight(bathroomLight);
+
+        Command turnOnroomLightCommand = new TurnOnLightCommand(roomLight);
+        Command turnOffbathroomLightCommand = new TurnOffLightCommand(bathroomLight);
+        Command setIntensityroomLightCommand = new AdjustBrightnessCommand(roomLight, 50);
+
+        turnOnroomLightCommand.execute();
+        turnOffbathroomLightCommand.execute();
+        setIntensityroomLightCommand.execute();
+
+        setIntensityroomLightCommand.undo();
+    }
+}
