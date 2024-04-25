@@ -1,0 +1,77 @@
+public class CoffeeOrder {
+    private String coffeeType;
+    private boolean milk;
+    private boolean sugar;
+
+    private CoffeeOrder(Builder builder) {
+        this.coffeeType = builder.coffeeType;
+        this.milk = builder.milk;
+        this.sugar = builder.sugar;
+    }
+
+    public String getCoffeeType() {
+        return coffeeType;
+    }
+
+    public boolean hasMilk() {
+        return milk;
+    }
+
+    public boolean hasSugar() {
+        return sugar;
+    }
+
+    public static class Builder {
+        private String coffeeType;
+        private boolean milk;
+        private boolean sugar;
+
+        public Builder(String coffeeType) {
+            this.coffeeType = coffeeType;
+        }
+
+        public Builder addMilk() {
+            this.milk = true;
+            return this;
+        }
+
+        public Builder addSugar() {
+            this.sugar = true;
+            return this;
+        }
+
+        public CoffeeOrder build() {
+            return new CoffeeOrder(this);
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        CoffeeOrder order1 = new CoffeeOrder.Builder("Espresso").build();
+        CoffeeOrder order2 = new CoffeeOrder.Builder("Lait").addMilk().addSugar().build();
+        CoffeeOrder order3 = new CoffeeOrder.Builder("Cappuccino").addMilk().build();
+        CoffeeOrder order4 = new CoffeeOrder.Builder("Arabica").addSugar().build();
+ 
+        displayCoffeeOrderDetails(order1);
+        displayCoffeeOrderDetails(order2);
+        displayCoffeeOrderDetails(order3);
+        displayCoffeeOrderDetails(order4);
+        
+        CoffeeOrder order5 = new CoffeeOrder.Builder("Cafe Noir").build();
+        displayCoffeeOrderDetails(order5);
+        
+        CoffeeOrder order6 = new CoffeeOrder.Builder("Lait").addMilk().build();
+        displayCoffeeOrderDetails(order6);
+        
+        CoffeeOrder order7 = new CoffeeOrder.Builder("Espresso sucré").addSugar().build();
+        displayCoffeeOrderDetails(order7);
+    }
+
+    private static void displayCoffeeOrderDetails(CoffeeOrder order) {
+        System.out.println("Type de café : " + order.getCoffeeType());
+        System.out.println("Lait : " + (order.hasMilk() ? "Oui" : "Non"));
+        System.out.println("Sucre : " + (order.hasSugar() ? "Oui" : "Non"));
+        System.out.println();
+    }
+}
